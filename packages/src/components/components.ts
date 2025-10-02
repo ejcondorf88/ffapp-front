@@ -1,0 +1,13 @@
+export { Header } from './Header/Header';
+export { Hero } from './Hero/Hero';
+export { InfoSection } from './Info/InfoSection';
+export { AboutSection } from './About/AboutSection';
+export { ModeloGestion } from './ModeloGestion/ModeloGestion';
+export { EcuadorSostenible } from './EcuadorSostenible/EcuadorSostenible';
+export { default as Card } from './Cards/Card';
+export { default as CardsGrid } from './Cards/CardsGrid';
+export { ImpactoSection } from './Impacto/ImpactoSection';
+export { AliadosSection } from './Aliados/AliadosSection';
+export { VideoAuditoriaSection } from './VideoAuditoriaSection/VideoAuditoriaSection';
+export { Footer } from './Footer/Footer';
+export { Layout } from './Layout/Layout';

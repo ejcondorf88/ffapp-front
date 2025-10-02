@@ -1,9 +1,15 @@
 import { Routes, Route } from 'react-router-dom'
+import { Layout } from '../components/Layout/Layout'
+import { HomePage } from '../pages/Home/HomePage'
+import { DonacionesPage } from '../pages/Donaciones/DonacionesPage'
+
 export const AppRouter = () => {
   return (
-    <Routes>
-      <Route path="/" element={<div className=''>Home</div>} />
-      <Route path="/donaciones" element={<div>Donaciones</div>} />
-    </Routes>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/donaciones" element={<DonacionesPage />} />
+      </Routes>
+    </Layout>
   )
 }
