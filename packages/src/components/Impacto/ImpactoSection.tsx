@@ -2,7 +2,7 @@ import React from 'react';
 
 export const ImpactoSection: React.FC = () => {
   return (
-    <section className="bg-white py-16">
+    <section id="impacto" className="bg-white py-16">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Columna Izquierda */}

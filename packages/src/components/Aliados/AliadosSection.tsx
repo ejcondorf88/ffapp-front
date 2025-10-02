@@ -70,7 +70,7 @@ export const AliadosSection: React.FC = () => {
         }
       `}</style>
       
-      <section className="bg-white py-16">
+      <section id="respaldo" className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           

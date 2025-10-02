@@ -2,7 +2,7 @@ import React from 'react';
 
 export const EcuadorSostenible: React.FC = () => {
   return (
-    <section className="bg-white py-16">
+    <section id="ejes-trabajo" className="bg-white py-16">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         {/* Contenido centrado */}
         <div className="text-center">

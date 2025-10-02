@@ -1,14 +1,46 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Menu, X } from "lucide-react";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const topBarHeight = 60; // px
   const mainHeaderHeight = 120; // px - aumentado para más espacio
   const maxWidth = 1150; // px - aumentado para más ancho
+
+  // Función para manejar navegación inteligente
+  const handleNavigation = (sectionId: string) => {
+    if (location.pathname === '/') {
+      // Si estamos en la página principal, hacer scroll
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const headerOffset = 140;
+        const elementPosition = element.offsetTop - headerOffset;
+        window.scrollTo({
+          top: elementPosition,
+          behavior: 'smooth'
+        });
+      }
+    } else {
+      // Si estamos en otra página, navegar a la página principal y luego hacer scroll
+      navigate('/');
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const headerOffset = 140;
+          const elementPosition = element.offsetTop - headerOffset;
+          window.scrollTo({
+            top: elementPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 100); // Pequeño delay para asegurar que la página se cargue
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -82,14 +114,25 @@ export const Header = () => {
             }}
           >
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2">
+            <button 
+              onClick={() => {
+                if (location.pathname === '/') {
+                  // Si estamos en HomePage, scroll al top
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                  // Si estamos en otra página, navegar a HomePage
+                  navigate('/');
+                }
+              }}
+              className="flex items-center gap-2 focus:outline-none"
+            >
               <img
                 src="/images/LogoFavorita.png"
                 alt="Fundación Favorita"
                 className="w-auto object-contain"
                 style={{ maxHeight: "95px", maxWidth: "450px" }}
               />
-            </Link>
+            </button>
 
             {/* Menú Desktop con separadores */}
             <nav
@@ -97,24 +140,45 @@ export const Header = () => {
               className="hidden lg:flex text-gray-700 font-medium justify-center flex-1 mx-6 text-sm"
             >
               {[
-                { to: "/nosotros", label: "Sobre Fundación Favorita" },
-                { to: "/programas", label: "Ejes de trabajo" },
-                { to: "/impacto", label: "Nuestro impacto" },
-                { to: "/aliados", label: "Nuestro respaldo" },
-                { to: "/testimonios", label: "Testimonios" },
+                { to: "sobre", label: "Sobre Fundación Favorita", isScroll: true },
+                { to: "ejes-trabajo", label: "Ejes de trabajo", isScroll: true },
+                { to: "impacto", label: "Nuestro impacto", isScroll: true },
+                { to: "respaldo", label: "Nuestro respaldo", isScroll: true },
+                { to: "testimonios", label: "Testimonios", isScroll: true },
                 { to: "/donaciones", label: "¡Dona aquí!", isDonation: true },
-              ].map(({ to, label, isDonation }, index, arr) => (
+              ].map(({ to, label, isDonation, isScroll }, index, arr) => (
                 <span key={to} className="flex items-center">
-                  <Link
-                    to={to}
-                    className={`font-medium transition-colors ${
-                      isDonation
-                        ? "text-red-600 font-semibold hover:text-red-700"
-                        : "text-gray-700 hover:text-red-600"
-                    }`}
-                  >
-                    {label}
-                  </Link>
+                  {isScroll ? (
+                    <button
+                      onClick={() => handleNavigation(to)}
+                      className={`font-medium transition-colors ${
+                        isDonation
+                          ? "text-red-600 font-semibold hover:text-red-700"
+                          : "text-gray-700 hover:text-red-600"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ) : (
+                    <Link
+                      to={to}
+                      className={`font-medium transition-colors ${
+                        isDonation
+                          ? "text-red-600 font-semibold hover:text-red-700"
+                          : "text-gray-700 hover:text-red-600"
+                      }`}
+                      onClick={() => {
+                        if (isDonation) {
+                          // Para donaciones, scroll al top después de navegar
+                          setTimeout(() => {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }, 100);
+                        }
+                      }}
+                    >
+                      {label}
+                    </Link>
+                  )}
                   {index < arr.length - 1 && (
                     <span className="mx-4 select-none text-gray-400">|</span>
                   )}
@@ -137,25 +201,50 @@ export const Header = () => {
             <div className="lg:hidden bg-white border-t border-gray-200 shadow-lg">
               <div className="flex flex-col py-6 px-12">
                 {[
-                  { to: "/nosotros", label: "Sobre Fundación Favorita" },
-                  { to: "/programas", label: "Ejes de trabajo" },
-                  { to: "/impacto", label: "Nuestro impacto" },
-                  { to: "/aliados", label: "Nuestro respaldo" },
-                  { to: "/testimonios", label: "Testimonios" },
+                  { to: "sobre", label: "Sobre Fundación Favorita", isScroll: true },
+                  { to: "ejes-trabajo", label: "Ejes de trabajo", isScroll: true },
+                  { to: "impacto", label: "Nuestro impacto", isScroll: true },
+                  { to: "respaldo", label: "Nuestro respaldo", isScroll: true },
+                  { to: "testimonios", label: "Testimonios", isScroll: true },
                   { to: "/donaciones", label: "¡Dona aquí!", isDonation: true },
-                ].map(({ to, label, isDonation }) => (
-                  <Link
-                    key={to}
-                    to={to}
-                    className={`py-3 border-b border-gray-100 font-medium transition-colors ${
-                      isDonation
-                        ? "text-red-600 font-semibold hover:text-red-700"
-                        : "text-gray-700 hover:text-red-600"
-                    }`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {label}
-                  </Link>
+                ].map(({ to, label, isDonation, isScroll }) => (
+                  isScroll ? (
+                    <button
+                      key={to}
+                      onClick={() => {
+                        handleNavigation(to);
+                        setIsMenuOpen(false);
+                      }}
+                      className={`py-3 border-b border-gray-100 font-medium transition-colors text-left ${
+                        isDonation
+                          ? "text-red-600 font-semibold hover:text-red-700"
+                          : "text-gray-700 hover:text-red-600"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ) : (
+                    <Link
+                      key={to}
+                      to={to}
+                      className={`py-3 border-b border-gray-100 font-medium transition-colors ${
+                        isDonation
+                          ? "text-red-600 font-semibold hover:text-red-700"
+                          : "text-gray-700 hover:text-red-600"
+                      }`}
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        if (isDonation) {
+                          // Para donaciones, scroll al top después de navegar
+                          setTimeout(() => {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }, 100);
+                        }
+                      }}
+                    >
+                      {label}
+                    </Link>
+                  )
                 ))}
               </div>
             </div>

@@ -15,7 +15,7 @@ export const VideoAuditoriaSection: React.FC = () => {
   return (
     <>
       {/* Sección superior con video - fondo oscuro */}
-      <section className="bg-gray-900 py-16 relative overflow-hidden">
+      <section id="testimonios" className="bg-gray-900 py-16 relative overflow-hidden">
         {/* Imagen de fondo con overlay */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-black bg-opacity-60 z-10"></div>
