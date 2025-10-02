@@ -16,19 +16,34 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ videoUrl }) => {
         {/* Contenido principal */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Video a la izquierda */}
-          <div className="relative rounded-2xl overflow-hidden bg-gray-800 aspect-video shadow-lg">
-            {/* Botón de play */}
-            <button
-              onClick={openModal}
-              aria-label="Reproducir video"
-              className="group absolute inset-0 flex items-center justify-center focus:outline-none"
-            >
-              <span className="inline-flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full bg-red-600 text-white shadow-2xl transition-all group-hover:scale-105 group-hover:bg-red-700">
+          <div className="relative rounded-2xl overflow-hidden bg-gray-800 aspect-video shadow-lg cursor-pointer group" onClick={openModal}>
+            {/* Video como thumbnail */}
+            {videoUrl && (
+              <video
+                className="w-full h-full object-cover"
+                muted
+                preload="metadata"
+                src={videoUrl}
+                poster="" // Se puede agregar un poster image si se desea
+              >
+                Tu navegador no soporta el elemento de video.
+              </video>
+            )}
+
+            {/* Overlay oscuro para mejor contraste */}
+            <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all duration-300"></div>
+
+            {/* Botón de reproducción centrado */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <button
+                aria-label="Reproducir video"
+                className="inline-flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full bg-red-600 hover:bg-red-700 text-white shadow-2xl transition-all duration-300 transform group-hover:scale-105"
+              >
                 <svg className="w-8 h-8 md:w-10 md:h-10 ml-1" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M8 5v14l11-7z" />
                 </svg>
-              </span>
-            </button>
+              </button>
+            </div>
           </div>
 
           {/* Tarjeta de texto a la derecha */}
