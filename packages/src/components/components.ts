@@ -15,5 +15,6 @@ export { WhyDonateBanner } from './WhyDonateBanner/WhyDonateBanner';
 export { ImpactSection } from './ImpactSection/ImpactSection';
 export { ImpactSections } from './ImpactSections/ImpactSections';
 export { EcuadorMap } from './EcuadorMap/EcuadorMap';
+export { Login } from './Login/Login';
 export { Footer } from './Footer/Footer';
 export { Layout } from './Layout/Layout';
