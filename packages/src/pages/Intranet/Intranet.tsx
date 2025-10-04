@@ -1,20 +1,28 @@
 import { useState } from 'react';
 import { Sidebar } from '../../components/SidebBar/SideBar';
+import { PowerBIEmbed } from '../../components/PowerBI/PowerBIEmbedProps';
 import { FormsOng } from './FormsOng';
 
 export const Intranet = () => {
-  const [currentView, setCurrentView] = useState('dashboard');
+  const user = localStorage.getItem("user");
 
+  // Si es admin, que por defecto cargue dashboard
+  const [currentView, setCurrentView] = useState(user === "ONG" ? "formulario-ongs" : "dashboard");
+  
   const renderContent = () => {
     switch (currentView) {
       case 'dashboard':
-        return <h1 className="text-2xl font-bold text-gray-800">Panel principal</h1>;
+        return (
+          <PowerBIEmbed
+            url="https://app.powerbi.com/view?r=eyJrIjoiODI4MWE4ZjUtNTQyMy00MmEyLTljOGMtZDVmZjU1MTcwNTIyIiwidCI6IjhjYTUyZTJiLTFkMjAtNDI3NC05YTEzLWJkNzZlY2NiODFkMSIsImMiOjR9"
+            height="600px"
+            className="w-full"
+          />
+        );
       case 'facturacion':
         return <h1 className="text-2xl font-bold text-gray-800">Módulo de facturación</h1>;
       case 'formulario-ongs':
-        return (
-          <FormsOng />
-        );
+        return <FormsOng />;
       case 'configuracion':
         return <h1 className="text-2xl font-bold text-gray-800">Configuraciones del sistema</h1>;
       default:

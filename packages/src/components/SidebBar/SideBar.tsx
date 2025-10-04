@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   BarChart3,
@@ -12,20 +13,39 @@ interface SidebarProps {
   onSelectView: (view: string) => void;
 }
 
-const menuItems = [
-  { id: 'dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { id: 'facturacion', icon: BarChart3, label: 'Facturación' },
-  { id: 'formulario-ongs', icon: BarChart3, label: 'Formulario para Ongs' },
-  { id: 'configuracion', icon: BarChart3, label: 'Configuración' },
-];
-
 export const Sidebar = ({ onSelectView }: SidebarProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeItem, setActiveItem] = useState('dashboard');
+  const navigate = useNavigate();
+
+  const user = localStorage.getItem("user");
+
+  // Todos los items posibles
+  const allMenuItems = [
+    { id: 'dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+    { id: 'facturacion', icon: BarChart3, label: 'Facturación' },
+    { id: 'formulario-ongs', icon: BarChart3, label: 'Formulario para Ongs' },
+    { id: 'configuracion', icon: BarChart3, label: 'Configuración' },
+  ];
+
+  // Filtrar items según usuario
+  let menuItems;
+  if (user === "admin") {
+    menuItems = allMenuItems.filter(item => item.id === "dashboard" || item.id === "facturacion");
+  } else if (user === "ONG") {
+    menuItems = allMenuItems.filter(item => item.id === "formulario-ongs" || item.id === "configuracion");
+  } else {
+    menuItems = allMenuItems;
+  }
 
   const handleClick = (id: string) => {
     setActiveItem(id);
     onSelectView(id);
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/');
   };
 
   return (
@@ -112,6 +132,7 @@ export const Sidebar = ({ onSelectView }: SidebarProps) => {
       {/* Footer */}
       <div className="border-t border-red-700 p-4">
         <button
+          onClick={handleLogout}
           className={`w-full flex items-center ${
             isCollapsed ? 'justify-center' : 'space-x-3'
           } px-3 py-3 rounded-lg hover:bg-red-700/50 transition-all duration-200 group`}

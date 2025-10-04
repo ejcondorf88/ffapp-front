@@ -19,6 +19,11 @@ export const useLogin = () => {
         console.log("Los datos estan aqui", data);
         
       const response = "test" as any// Ajusta la URL a tu backend
+
+      //Simulacion de captura
+      localStorage.setItem("user", data.email);
+      localStorage.setItem("password", data.password);
+
       navigate("/app-intranet");
       setLoading(false);
       return response.status === 200; // Devuelve true si login fue exitoso
