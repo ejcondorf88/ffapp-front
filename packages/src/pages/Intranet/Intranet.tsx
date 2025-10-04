@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Sidebar } from '../../components/SidebBar/SideBar';
 import { FormsOng } from './FormsOng';
+import { Facturacion } from './Facturacion';
 
 export const Intranet = () => {
   const [currentView, setCurrentView] = useState('dashboard');
@@ -10,7 +11,7 @@ export const Intranet = () => {
       case 'dashboard':
         return <h1 className="text-2xl font-bold text-gray-800">Panel principal</h1>;
       case 'facturacion':
-        return <h1 className="text-2xl font-bold text-gray-800">Módulo de facturación</h1>;
+        return <Facturacion />;
       case 'formulario-ongs':
         return (
           <FormsOng />
