@@ -130,7 +130,7 @@ export const Header = () => {
                 src="/images/LogoFavorita.png"
                 alt="Fundación Favorita"
                 className="w-auto object-contain"
-                style={{ maxHeight: "95px", maxWidth: "450px" }}
+                style={{ maxHeight: "85px", maxWidth: "350px" }}
               />
             </button>
 
@@ -146,6 +146,7 @@ export const Header = () => {
                 { to: "respaldo", label: "Nuestro respaldo", isScroll: true },
                 { to: "testimonios", label: "Testimonios", isScroll: true },
                 { to: "/donaciones", label: "¡Dona aquí!", isDonation: true },
+                { to: "/app", label: "App", isDonation: true },
               ].map(({ to, label, isDonation, isScroll }, index, arr) => (
                 <span key={to} className="flex items-center">
                   {isScroll ? (
