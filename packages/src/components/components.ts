@@ -9,5 +9,8 @@ export { default as CardsGrid } from './Cards/CardsGrid';
 export { ImpactoSection } from './Impacto/ImpactoSection';
 export { AliadosSection } from './Aliados/AliadosSection';
 export { VideoAuditoriaSection } from './VideoAuditoriaSection/VideoAuditoriaSection';
+export { DonationCards } from './DonationCards/DonationCards';
+export { HeroDonaciones } from './HeroDonaciones/HeroDonaciones';
+export { ImpactSections } from './ImpactSections/ImpactSections';
 export { Footer } from './Footer/Footer';
 export { Layout } from './Layout/Layout';
