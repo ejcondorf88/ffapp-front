@@ -15,7 +15,7 @@ const dataMetodos = [
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
 
-export default function ResumenGeneral() {
+export const ResumenGeneral = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
