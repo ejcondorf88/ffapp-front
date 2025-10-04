@@ -4,6 +4,7 @@ import { HomePage } from '../pages/Home/HomePage'
 import { DonacionesPage } from '../pages/Donaciones/DonacionesPage'
 import { AppPage } from '../pages/App/AppPage'
 import {Intranet} from '../pages/Intranet/Intranet'
+import { FormsOng } from '../pages/Intranet/FormsOng'
 
 export const AppRouter = () => {
   return (
@@ -19,6 +20,7 @@ export const AppRouter = () => {
 
       {/* Ruta SIN Layout */}
       <Route path="/app-intranet" element={<Intranet />} />
+      <Route path="/app-intranet/formulario-ongs" element={<FormsOng />} />
     </Routes>
   )
 }
