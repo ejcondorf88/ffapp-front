@@ -3,15 +3,22 @@ import { Layout } from '../components/Layout/Layout'
 import { HomePage } from '../pages/Home/HomePage'
 import { DonacionesPage } from '../pages/Donaciones/DonacionesPage'
 import { AppPage } from '../pages/App/AppPage'
+import {Intranet} from '../pages/Intranet/Intranet'
 
 export const AppRouter = () => {
   return (
-    <Layout>
-      <Routes>
+    <Routes>
+      {/* Rutas CON Layout */}
+      <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/donaciones" element={<DonacionesPage />} />
         <Route path="/app" element={<AppPage />} />
       </Routes>
     </Layout>
+      </Route>
+
+      {/* Ruta SIN Layout */}
+      <Route path="/app-intranet" element={<Intranet />} />
+    </Routes>
   )
 }
