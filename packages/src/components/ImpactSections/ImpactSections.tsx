@@ -16,7 +16,7 @@ const contentTabs: ContentTab[] = [
     id: 'nutricion',
     title: 'NUTRICIÓN',
     description: 'Promovemos la seguridad alimentaria y nutricional mediante programas que garantizan el acceso a alimentos nutritivos y la educación sobre hábitos alimentarios saludables para familias vulnerables en Ecuador.',
-    imageUrl: '/images/nutricion-bg.png', // Se definirá después
+    imageUrl: '/images/nutricion-bg.png', 
     stats: {
       number: '25,000',
       description: 'familias beneficiadas con programas nutricionales'
@@ -26,7 +26,7 @@ const contentTabs: ContentTab[] = [
     id: 'educacion',
     title: 'EDUCACIÓN',
     description: 'Fortalecemos el sistema educativo mediante la construcción y equipamiento de escuelas, formación docente y programas de becas que garantizan el acceso a educación de calidad para niños y jóvenes.',
-    imageUrl: '/images/educacion-bg.png', // Se definirá después
+    imageUrl: '/images/educacion-bg.png', 
     stats: {
       number: '200',
       description: 'escuelas apoyadas en comunidades rurales'
@@ -36,7 +36,7 @@ const contentTabs: ContentTab[] = [
     id: 'emprendimiento',
     title: 'EMPRENDIMIENTO',
     description: 'Impulsamos el desarrollo económico local mediante programas de capacitación, microcréditos y acompañamiento técnico que permiten a las familias generar ingresos sostenibles y mejorar su calidad de vida.',
-    imageUrl: '/images/emprendimiento-bg.png', // Se definirá después
+    imageUrl: '/images/emprendimiento-bg.png', 
     stats: {
       number: '5,000',
       description: 'emprendimientos apoyados y fortalecidos'
@@ -46,7 +46,7 @@ const contentTabs: ContentTab[] = [
     id: 'ambiente',
     title: 'AMBIENTE',
     description: 'Protegemos los recursos naturales y promovemos prácticas sostenibles a través de proyectos de reforestación, gestión de residuos y educación ambiental que contribuyen a la conservación del ecosistema.',
-    imageUrl: '/images/ambiente-bg.png', // Se definirá después
+    imageUrl: '/images/ambiente-bg.png',
     stats: {
       number: '15',
       description: 'proyectos ambientales en ejecución'
@@ -56,7 +56,7 @@ const contentTabs: ContentTab[] = [
     id: 'equidad',
     title: 'EQUIDAD DE GÉNERO',
     description: 'Promovemos la igualdad de oportunidades mediante programas de empoderamiento femenino, prevención de violencia de género y liderazgo que fortalecen el rol de la mujer en el desarrollo comunitario.',
-    imageUrl: '/images/equidad-bg.png', // Se definirá después
+    imageUrl: '/images/equidad-bg.png', 
     stats: {
       number: '3,500',
       description: 'mujeres empoderadas en programas de liderazgo'

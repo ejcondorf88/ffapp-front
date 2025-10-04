@@ -1,36 +1,31 @@
-import React, { useState } from 'react';
-
-type DonationType = 'once' | 'monthly';
+import React from 'react';
+import { useDonation } from '../../contexts/DonationContext';
 
 type PaymentMethod = 'card' | 'qr';
 
 export const DonationCards: React.FC = () => {
-  const [donationType, setDonationType] = useState<DonationType>('once');
-  const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
-  const [customAmount, setCustomAmount] = useState<string>('');
-  const [showForm, setShowForm] = useState(false);
-  const [showPayment, setShowPayment] = useState(false);
-  const [showThankYou, setShowThankYou] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(null);
-
-  // Estados del formulario
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    emailUpdates: true,
-    textUpdates: false
-  });
-
-  // Estados del pago
-  const [paymentData, setPaymentData] = useState({
-    cardNumber: '',
-    expiryDate: '',
-    cvv: '',
-    cardName: '',
-    receiptNumber: ''
-  });
+  const {
+    donationType,
+    setDonationType,
+    selectedAmount,
+    setSelectedAmount,
+    customAmount,
+    setCustomAmount,
+    showForm,
+    setShowForm,
+    showPayment,
+    setShowPayment,
+    showThankYou,
+    setShowThankYou,
+    paymentMethod,
+    setPaymentMethod,
+    formData,
+    setFormData,
+    paymentData,
+    setPaymentData,
+    getCurrentAmount,
+    resetDonation
+  } = useDonation();
 
   // Montos para donación única
   const onceAmounts = [50, 100, 150, 200];
@@ -99,33 +94,7 @@ export const DonationCards: React.FC = () => {
   };
 
   const handleNewDonation = () => {
-    // Reiniciar todos los estados
-    setSelectedAmount(null);
-    setCustomAmount('');
-    setDonationType('once');
-    setShowForm(false);
-    setShowPayment(false);
-    setShowThankYou(false);
-    setFormData({
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      emailUpdates: false,
-      textUpdates: false
-    });
-    setPaymentMethod(null);
-    setPaymentData({
-      cardNumber: '',
-      expiryDate: '',
-      cvv: '',
-      cardName: '',
-      receiptNumber: ''
-    });
-  };
-
-  const getCurrentAmount = () => {
-    return selectedAmount || parseFloat(customAmount) || 0;
+    resetDonation();
   };
 
   const getImpactMessage = () => {
