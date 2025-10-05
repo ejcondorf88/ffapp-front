@@ -4,6 +4,7 @@ import { PowerBIEmbed } from '../../components/PowerBI/PowerBIEmbedProps';
 import { FormsOng } from './FormsOng';
 import { Facturacion } from './Facturacion';
 import { FacturaONG } from './FacturaONG';
+import { NuevaONG } from '../../components/NuevaONG/NuevaONG'
 
 export const Intranet = () => {
   const user = localStorage.getItem("user");
@@ -27,8 +28,8 @@ export const Intranet = () => {
         return <FacturaONG />;
       case 'formulario-ongs':
         return <FormsOng />;
-      case 'configuracion':
-        return <h1 className="text-2xl font-bold text-gray-800">Configuraciones del sistema</h1>;
+      case 'NuevaONG':
+        return <NuevaONG />;
       default:
         return <p>Seleccione una opción del menú.</p>;
     }
