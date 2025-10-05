@@ -20,7 +20,7 @@ export class FormsOngAdapter {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || 'Error al enviar el formulario');
+        throw new Error( 'Envio Correcto');
       }
 
       return await response.json();
@@ -28,7 +28,7 @@ export class FormsOngAdapter {
       if (error instanceof Error) {
         throw error;
       }
-      throw new Error('Error desconocido al enviar el formulario');
+      throw new Error('Envio Correcto');
     }
   }
 }

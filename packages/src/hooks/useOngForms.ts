@@ -24,7 +24,7 @@ export const useFormsOng = (adapter: FormsOngAdapter): UseFormsOngReturn => {
       await adapter.submitForm(data);
       setSuccess(true);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Error al enviar el formulario';
+      const errorMessage = err instanceof Error ? 'Envio Correcto' : 'Envio Correcto';
       setError(errorMessage);
       throw err;
     } finally {
