@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { API_URLS } from '../../config/api.ts';
 
 interface ONG {
   id: number;
@@ -46,7 +47,9 @@ export const Facturacion = () => {
   const [selectedONG, setSelectedONG] = useState<ONG | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [message, setMessage] = useState<{ type: 'success' | 'error' | 'warning' | 'info'; text: string } | null>(null);
+  const [showReplaceDialog, setShowReplaceDialog] = useState(false);
+  const [pendingUpload, setPendingUpload] = useState<{ file: File; organizacion: string } | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -58,7 +61,7 @@ export const Facturacion = () => {
     }
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent, reemplazar: boolean = false) => {
     event.preventDefault();
     
     if (!selectedONG || !selectedFile) {
@@ -73,29 +76,58 @@ export const Facturacion = () => {
       const formData = new FormData();
       formData.append('file', selectedFile);
       formData.append('organizacion', selectedONG.nombre);
+      formData.append('reemplazar', reemplazar.toString());
 
-      const response = await fetch('/api/facturas/upload', {
+      const response = await fetch(API_URLS.FACTURAS_UPLOAD, {
         method: 'POST',
         body: formData,
       });
 
+      const result = await response.json();
+
       if (response.ok) {
-        await response.json();
-        setMessage({ type: 'success', text: 'Factura guardada exitosamente.' });
+        if (result.reemplazado) {
+          setMessage({ type: 'success', text: 'Factura reemplazada exitosamente.' });
+          setShowReplaceDialog(false);
+          setPendingUpload(null);
+        } else {
+          setMessage({ type: 'success', text: 'Factura guardada exitosamente.' });
+          setShowReplaceDialog(false);
+          setPendingUpload(null);
+        }
         setSelectedFile(null);
         setSelectedONG(null);
         // Reset file input
         const fileInput = document.getElementById('pdf-file') as HTMLInputElement;
         if (fileInput) fileInput.value = '';
+      } else if (response.status === 409 && result.archivo_existente) {
+        // Archivo ya existe, mostrar diálogo de reemplazo
+        setPendingUpload({ file: selectedFile, organizacion: selectedONG.nombre });
+        setShowReplaceDialog(true);
+        setMessage({ 
+          type: 'warning', 
+          text: 'Ya existe un archivo con este nombre. ¿Deseas reemplazarlo?' 
+        });
       } else {
-        const error = await response.json();
-        setMessage({ type: 'error', text: error.message || 'Error al guardar la factura.' });
+        setMessage({ type: 'error', text: result.message || 'Error al guardar la factura.' });
       }
     } catch (error) {
       setMessage({ type: 'error', text: 'Error de conexión. Inténtalo de nuevo.' });
     } finally {
       setIsUploading(false);
     }
+  };
+
+  const handleReplaceConfirm = () => {
+    if (pendingUpload) {
+      handleSubmit(new Event('submit') as any, true);
+    }
+  };
+
+  const handleReplaceCancel = () => {
+    setShowReplaceDialog(false);
+    setPendingUpload(null);
+    setMessage({ type: 'info', text: 'Operación cancelada.' });
   };
 
   return (
@@ -181,9 +213,42 @@ export const Facturacion = () => {
           <div className={`p-4 rounded-md ${
             message.type === 'success' 
               ? 'bg-green-50 text-green-800 border border-green-200' 
+              : message.type === 'warning'
+              ? 'bg-yellow-50 text-yellow-800 border border-yellow-200'
+              : message.type === 'info'
+              ? 'bg-blue-50 text-blue-800 border border-blue-200'
               : 'bg-red-50 text-red-800 border border-red-200'
           }`}>
             {message.text}
+          </div>
+        )}
+
+        {/* Diálogo de confirmación de reemplazo */}
+        {showReplaceDialog && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Archivo ya existe
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Ya existe un archivo con el mismo nombre para esta organización. 
+                ¿Deseas reemplazarlo con el nuevo archivo?
+              </p>
+              <div className="flex justify-end space-x-3">
+                <button
+                  onClick={handleReplaceCancel}
+                  className="px-4 py-2 text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleReplaceConfirm}
+                  className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                >
+                  Reemplazar
+                </button>
+              </div>
+            </div>
           </div>
         )}
 
