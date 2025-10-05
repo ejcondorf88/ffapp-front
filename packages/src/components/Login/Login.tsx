@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-
 import { useLogin } from "../../hooks/useLogin"; // Hook que crearemos
 
 export const Login = () => {
-  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, loading, error } = useLogin();
@@ -18,13 +16,19 @@ export const Login = () => {
     try {
       const success = await login({ email, password });
       if (success) {
-        console.log("Prueba")
+        console.log("Prueba");
       } else {
         alert("Usuario o contraseña incorrectos");
       }
     } catch (err) {
       console.error(err);
       alert("Ocurrió un error, intenta de nuevo");
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleLogin();
     }
   };
 
@@ -42,6 +46,7 @@ export const Login = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                onKeyDown={handleKeyDown}
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                 placeholder="Ejemplo"
               />
@@ -53,6 +58,7 @@ export const Login = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={handleKeyDown}
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                 placeholder="********"
               />

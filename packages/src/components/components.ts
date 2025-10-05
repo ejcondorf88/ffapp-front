@@ -10,6 +10,7 @@ export { ImpactoSection } from './Impacto/ImpactoSection';
 export { AliadosSection } from './Aliados/AliadosSection';
 export { VideoAuditoriaSection } from './VideoAuditoriaSection/VideoAuditoriaSection';
 export { DonationCards } from './DonationCards/DonationCards';
+export { PagoPluxCard } from './DonationCards/PagoPulxCard'
 export { HeroDonaciones } from './HeroDonaciones/HeroDonaciones';
 export { WhyDonateBanner } from './WhyDonateBanner/WhyDonateBanner';
 export { ImpactSection } from './ImpactSection/ImpactSection';

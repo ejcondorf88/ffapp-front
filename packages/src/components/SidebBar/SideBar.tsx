@@ -24,6 +24,7 @@ export const Sidebar = ({ onSelectView }: SidebarProps) => {
   const allMenuItems = [
     { id: 'dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { id: 'facturacion', icon: BarChart3, label: 'Facturación' },
+    { id: 'facturaONG', icon: BarChart3, label: 'FacturaONG' },
     { id: 'formulario-ongs', icon: BarChart3, label: 'Formulario para Ongs' },
     { id: 'configuracion', icon: BarChart3, label: 'Configuración' },
   ];
@@ -31,9 +32,9 @@ export const Sidebar = ({ onSelectView }: SidebarProps) => {
   // Filtrar items según usuario
   let menuItems;
   if (user === "admin") {
-    menuItems = allMenuItems.filter(item => item.id === "dashboard" || item.id === "facturacion");
+    menuItems = allMenuItems.filter(item => item.id === "dashboard" || item.id === "configuracion" || item.id === "facturaONG" );
   } else if (user === "ONG") {
-    menuItems = allMenuItems.filter(item => item.id === "formulario-ongs" || item.id === "configuracion");
+    menuItems = allMenuItems.filter(item => item.id === "formulario-ongs" || item.id === "facturacion");
   } else {
     menuItems = allMenuItems;
   }

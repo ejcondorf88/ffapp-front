@@ -3,6 +3,7 @@ import { Sidebar } from '../../components/SidebBar/SideBar';
 import { PowerBIEmbed } from '../../components/PowerBI/PowerBIEmbedProps';
 import { FormsOng } from './FormsOng';
 import { Facturacion } from './Facturacion';
+import { FacturaONG } from './FacturaONG';
 
 export const Intranet = () => {
   const user = localStorage.getItem("user");
@@ -22,6 +23,8 @@ export const Intranet = () => {
         );
       case 'facturacion':
         return <Facturacion />;
+      case 'facturaONG':
+        return <FacturaONG />;
       case 'formulario-ongs':
         return <FormsOng />;
       case 'configuracion':

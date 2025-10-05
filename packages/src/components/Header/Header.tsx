@@ -208,6 +208,7 @@ export const Header = () => {
                   { to: "respaldo", label: "Nuestro respaldo", isScroll: true },
                   { to: "testimonios", label: "Testimonios", isScroll: true },
                   { to: "/donaciones", label: "¡Dona aquí!", isDonation: true },
+                  { to: "/app", label: "App", isDonation: true },
                 ].map(({ to, label, isDonation, isScroll }) => (
                   isScroll ? (
                     <button
