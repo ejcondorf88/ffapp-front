@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface ONG {
   id: number;
@@ -39,7 +39,7 @@ const ONGS: ONG[] = [
   { id: 31, nombre: 'Fundación San Vicente' },
   { id: 32, nombre: 'Fundación San Francisco' },
   { id: 33, nombre: 'Fundación San Antonio' },
-  { id: 34, nombre: 'Fundación San Pedro' }
+  { id: 34, nombre: 'Fundación San Pedro' },
 ];
 
 export const Facturacion = () => {
@@ -47,6 +47,25 @@ export const Facturacion = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  // ✅ Establecer ONG predeterminada desde localStorage
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        const parsedUser = JSON.parse(userData);
+        const userONGName = parsedUser.organizacion || parsedUser.nombreONG || parsedUser.ong;
+        if (userONGName) {
+          const foundONG = ONGS.find(o => o.nombre === userONGName);
+          if (foundONG) {
+            setSelectedONG(foundONG);
+          }
+        }
+      } catch (error) {
+        console.error('Error al parsear el usuario del localStorage', error);
+      }
+    }
+  }, []);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -60,7 +79,7 @@ export const Facturacion = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    
+
     if (!selectedONG || !selectedFile) {
       setMessage({ type: 'error', text: 'Por favor selecciona una ONG y un archivo PDF.' });
       return;
@@ -83,15 +102,13 @@ export const Facturacion = () => {
         await response.json();
         setMessage({ type: 'success', text: 'Factura guardada exitosamente.' });
         setSelectedFile(null);
-        setSelectedONG(null);
-        // Reset file input
         const fileInput = document.getElementById('pdf-file') as HTMLInputElement;
         if (fileInput) fileInput.value = '';
       } else {
         const error = await response.json();
         setMessage({ type: 'error', text: error.message || 'Error al guardar la factura.' });
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Error de conexión. Inténtalo de nuevo.' });
     } finally {
       setIsUploading(false);
@@ -101,34 +118,35 @@ export const Facturacion = () => {
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Módulo de Facturación</h1>
-      
+
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Selector de ONG */}
+        {/* Campo User */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Usuario</label>
+          <input
+            type="text"
+            value={JSON.parse(localStorage.getItem('user') || '{}').nombre || 'Usuario no definido'}
+            disabled
+            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700"
+          />
+        </div>
+
+        {/* Selector de ONG (bloqueado) */}
         <div>
           <label htmlFor="ong-select" className="block text-sm font-medium text-gray-700 mb-2">
-            Seleccionar Organización
+            Organización
           </label>
           <select
             id="ong-select"
             value={selectedONG?.id || ''}
-            onChange={(e) => {
-              const ongId = parseInt(e.target.value);
-              const ong = ONGS.find(o => o.id === ongId);
-              setSelectedONG(ong || null);
-            }}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            required
+            disabled
+            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700 cursor-not-allowed"
           >
-            <option value="">Selecciona una ONG...</option>
-            {ONGS.map((ong) => (
-              <option key={ong.id} value={ong.id}>
-                {ong.nombre}
-              </option>
-            ))}
+            <option value="">{selectedONG ? selectedONG.nombre : 'Cargando ONG...'}</option>
           </select>
         </div>
 
-        {/* Upload de archivo PDF */}
+        {/* Subir archivo PDF */}
         <div>
           <label htmlFor="pdf-file" className="block text-sm font-medium text-gray-700 mb-2">
             Subir Factura (PDF)
@@ -178,11 +196,13 @@ export const Facturacion = () => {
 
         {/* Mensaje de estado */}
         {message && (
-          <div className={`p-4 rounded-md ${
-            message.type === 'success' 
-              ? 'bg-green-50 text-green-800 border border-green-200' 
-              : 'bg-red-50 text-red-800 border border-red-200'
-          }`}>
+          <div
+            className={`p-4 rounded-md ${
+              message.type === 'success'
+                ? 'bg-green-50 text-green-800 border border-green-200'
+                : 'bg-red-50 text-red-800 border border-red-200'
+            }`}
+          >
             {message.text}
           </div>
         )}
